@@ -18,7 +18,7 @@ const Login = () => {
     dispatch(loginUser({ email, password }))
       .unwrap()
       .then(() => {
-        navigate("/");
+        navigate("/dashboard");
         toast.success("Logged in");
       })
       .catch((error) => {
