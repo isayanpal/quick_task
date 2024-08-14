@@ -5,11 +5,11 @@ import TodoList from "../components/TodoList";
 
 const TodoPage = () => {
   return (
-    <>
+    <div className="h-screen m-auto flex flex-col items-center w-full">
       <Header />
       <TodoForm />
       <TodoList />
-    </>
+    </div>
   );
 };
 

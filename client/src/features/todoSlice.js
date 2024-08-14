@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export const fetchTodos = createAsyncThunk(
   "todos/fetchTodos",
   async (_, { getState }) => {
     const token = getState().auth.token;
-    const response = await axios.get("http://localhost:5000/api/todos", {
+    const response = await axios.get(`${API_BASE_URL}/api/todos`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
@@ -16,13 +18,9 @@ export const addTodo = createAsyncThunk(
   "todos/addTodo",
   async (todoData, { getState }) => {
     const token = getState().auth.token;
-    const response = await axios.post(
-      "http://localhost:5000/api/todos",
-      todoData,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    const response = await axios.post(`${API_BASE_URL}/api/todos`, todoData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data;
   }
 );
@@ -33,7 +31,7 @@ export const updateTodo = createAsyncThunk(
     const token = getState().auth.token;
     const { id, text, completed } = todoData;
     const response = await axios.put(
-      `http://localhost:5000/api/todos/${id}`,
+      `${API_BASE_URL}/api/todos/${id}`,
       { text, completed },
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -47,7 +45,7 @@ export const deleteTodo = createAsyncThunk(
   "todos/deleteTodo",
   async (id, { getState }) => {
     const token = getState().auth.token;
-    await axios.delete(`http://localhost:5000/api/todos/${id}`, {
+    await axios.delete(`${API_BASE_URL}/api/todos/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return id;

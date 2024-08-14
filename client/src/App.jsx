@@ -1,10 +1,16 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import TodoPage from "./pages/TodoPage";
 import { loadUser } from "./features/authSlice";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,18 +25,27 @@ function App() {
   return (
     <Router>
       <Routes>
-        {!token ? (
-          <>
-            <Route path="/" element={<Login />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </>
-        ) : (
-          <Route path="/" element={<TodoPage />} />
-        )}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route
+          path="/dashboard"
+          element={token ? <TodoPage /> : <Navigate to={"/login"} />}
+        />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
+// {!token ? (
+//   <>
+//     <Route path="/" element={<LandingPage />} />
+//     <Route path="/login" element={<Login />} />
+//     <Route path="/register" element={<Register />} />
+//   </>
+// ) : (
+//   <Route path="/" element={<TodoPage />} />
+// )}
